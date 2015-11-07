@@ -4,11 +4,11 @@
 # Setup.
 #
 
-virtualenv="0.0.0"
+version="0.0.1"
 UP=$'\033[A'
 DOWN=$'\033[B'
-PVE_PREFIX=${P_PREFIX-/usr/local}
-BASE_VIRTUALENV_DIR=$P_PREFIX/pve/virtualenvs
+PVE_PREFIX=${PVE_PREFIX-/usr/local}
+BASE_VIRTUALENVS_DIR=$PVE_PREFIX/pve/virtualenvs
 
 #
 # Log <type> <msg>
