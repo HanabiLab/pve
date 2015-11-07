@@ -73,6 +73,7 @@ display_help() {
     pve                            Output Virtualenvs Installed
     pve new <anme>                 Create New Virtualenvs <name>
     pve <name>                     Activate to Vitualenv <name>
+    pve d                          Deactivate Current Vitualenv
     pve rm <anme>                  Remove the Given Vitualenv <name>
 
   Options:
@@ -121,8 +122,8 @@ prev_virtualenv_installed() {
 #
 
 virtualenvs_paths() {
-    find $BASE_VERSIONS_DIR -maxdepth 1 -type -mindepth 1 -type d \
-    | sed 's|'$BASE_VERSIONS_DIR'/||g'
+    find $BASE_VIRTUALENVS_DIR -maxdepth 1 -mindepth 1 -type d \
+    | sed 's|'$BASE_VIRTUALENVS_DIR'/||g'
 }
 
 #
@@ -192,13 +193,6 @@ erase_line() {
     printf "\033[1A\033[2K"
 }
 
-#
-# Check if the HEAD response of <url> is 200.
-#
-
-is_ok() {
-    curl -Is $1 | head -n 1 | grep 200 > /dev/null
-}
 
 #
 # Activate <virtualenv>
@@ -206,11 +200,17 @@ is_ok() {
 
 activate() {
     local virtualenv=$1
-    if test "$virtualenv" != "$active"; then
-        echo $active > $BASE_VIRTUALENVS_DIR/.prev
+    echo $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
+    source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
+}
 
-        source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
-    fi
+
+#
+# Deactivate <virtualenv>
+#
+
+deactivate() {
+    deactivate
 }
 
 
@@ -219,14 +219,16 @@ activate() {
 #
 
 install() {
+    local virtualenv=$1
     virtualenv $BASE_VIRTUALENVS_DIR/$virtualenv
 }
 
 #
-# Remove <virtualenv ...>
+# Remove <virtualenv>
 #
 
 remove_virtualenvs() {
+    local virtualenv=$1
     rm -rf $BASE_VIRTUALENVS_DIR/$virtualenv
 }
 
