@@ -73,7 +73,6 @@ display_help() {
     pve                            Output Virtualenvs Installed
     pve new <anme>                 Create New Virtualenvs <name>
     pve <name>                     Activate to Vitualenv <name>
-    pve d                          Deactivate Current Vitualenv
     pve rm <anme>                  Remove the Given Vitualenv <name>
 
   Options:
@@ -159,8 +158,11 @@ list_virtualenvs_installed() {
 #
 
 display_virtualenvs() {
+    for virtualenv in $(virtualenvs_paths); do
+        last=${virtualenv}
+    done
     enter_fullscreen
-    display_virtualenvs_with_selected $active
+    display_virtualenvs_with_selected $last
 
     trap handle_sigint INT
     trap handle_sigtstp SIGTSTP
@@ -178,7 +180,6 @@ display_virtualenvs() {
             ;;
             *)
             activate $selected
-            leave_fullscreen
             exit
             ;;
         esac
@@ -200,17 +201,9 @@ erase_line() {
 
 activate() {
     local virtualenv=$1
-    echo $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
     source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
-}
-
-
-#
-# Deactivate <virtualenv>
-#
-
-deactivate() {
-    deactivate
+    leave_fullscreen
+    bash
 }
 
 
