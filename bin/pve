@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+#
+# Setup.
+#
+
+virtualenv="0.0.0"
+UP=$'\033[A'
+DOWN=$'\033[B'
+PVE_PREFIX=${P_PREFIX-/usr/local}
+BASE_VIRTUALENV_DIR=$P_PREFIX/pve/virtualenvs
+
+#
+# Log <type> <msg>
+#
+
+log() {
+    printf "  \033[36m%10s\033[0m : \033[90m%s\033[0m\n" "$1" "$2"
+}
+
+#
+# Exit with the given <msg ...>
+#
+
+abort() {
+    printf "\n  \033[31mError: $@\033[0m\n\n" && exit 1
+}
+
+#
+# Print a (differentiable from log) success message.
+#
+
+success() {
+    printf "\n  \033[32mSuccess: $@\033[0m\n\n"
+}
+
+
+#
+# Functions used when showing virtualenvs installed
+#
+
+enter_fullscreen() {
+    tput smcup
+    stty -echo
+}
+
+leave_fullscreen() {
+    tput rmcup
+    stty echo
+}
+
+handle_sigint() {
+    leave_fullscreen
+    exit $?
+}
+
+handle_sigtstp() {
+    leave_fullscreen
+    kill -s SIGSTOP $$
+}
+
+#
+# Output usage information.
+#
+
+display_help() {
+  cat <<-EOF
+
+  Usage: pve [COMMAND] [args]
+
+  Commands:
+
+    pve                            Output Virtualenvs Installed
+    pve new <anme>                 Create New Virtualenvs <name>
+    pve <name>                     Activate to Vitualenv <name>
+    pve rm <anme>                  Remove the Given Vitualenv <name>
+
+  Options:
+
+    -h, --help      Display help information
+
+EOF
+    exit 0
+}
+
+
+#
+# Hide cursor.
+#
+
+hide_cursor() {
+    printf "\e[?25l"
+}
+
+#
+# Show cursor.
+#
+
+show_cursor() {
+    printf "\e[?25h"
+}
+
+#
+# Output virtualenv after selected.
+#
+
+next_virtualenv_installed() {
+    list_virtualenvs_installed | grep $selected -A 1 | tail -n 1
+}
+
+#
+# Output virtualenv before selected.
+#
+
+prev_virtualenv_installed() {
+    list_virtualenvs_installed | grep $selected -B 1 | head -n 1
+}
+
+#
+# Display sorted virtualenvs directories paths.
+#
+
+virtualenvs_paths() {
+    find $BASE_VERSIONS_DIR -maxdepth 1 -type -mindepth 1 -type d \
+    | sed 's|'$BASE_VERSIONS_DIR'/||g'
+}
+
