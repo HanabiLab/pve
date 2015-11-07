@@ -125,3 +125,126 @@ virtualenvs_paths() {
     | sed 's|'$BASE_VERSIONS_DIR'/||g'
 }
 
+#
+# Display installed virtualenvs with <selected>
+#
+
+display_virtualenvs_with_selected() {
+    selected=$1
+    echo
+    for virtualenv in $(virtualenvs_paths); do
+        virtualenv=${virtualenv}
+        if test "$virtualenv" = "$selected"; then
+            printf "  \033[36mο\033[0m $virtualenv\033[0m\n"
+        else
+            printf "    \033[90m$virtualenv\033[0m\n"
+        fi
+    done
+    echo
+}
+
+#
+# List installed virtualenvs.
+#
+
+list_virtualenvs_installed() {
+    for virtualenv in $(virtualenvs_paths); do
+        echo ${virtualenv}
+    done
+}
+
+#
+# Display current python --virtualenv and others installed.
+#
+
+display_virtualenvs() {
+    enter_fullscreen
+    display_virtualenvs_with_selected $active
+
+    trap handle_sigint INT
+    trap handle_sigtstp SIGTSTP
+
+    while true; do
+        read -n 3 c
+        case "$c" in
+            $UP)
+            clear
+            display_virtualenvs_with_selected $(prev_virtualenv_installed)
+            ;;
+            $DOWN)
+            clear
+            display_virtualenvs_with_selected $(next_virtualenv_installed)
+            ;;
+            *)
+            activate $selected
+            leave_fullscreen
+            exit
+            ;;
+        esac
+    done
+}
+
+#
+# Move up a line and erase.
+#
+
+erase_line() {
+    printf "\033[1A\033[2K"
+}
+
+#
+# Check if the HEAD response of <url> is 200.
+#
+
+is_ok() {
+    curl -Is $1 | head -n 1 | grep 200 > /dev/null
+}
+
+#
+# Activate <virtualenv>
+#
+
+activate() {
+    local virtualenv=$1
+    if test "$virtualenv" != "$active"; then
+        echo $active > $BASE_VIRTUALENVS_DIR/.prev
+
+        source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
+    fi
+}
+
+
+#
+# Install <virtualenv>
+#
+
+install() {
+    virtualenv $BASE_VIRTUALENVS_DIR/$virtualenv
+}
+
+#
+# Remove <virtualenv ...>
+#
+
+remove_virtualenvs() {
+    rm -rf $BASE_VIRTUALENVS_DIR/$virtualenv
+}
+
+#
+# Handle arguments.
+#
+
+if test $# -eq 0; then
+    test -z "$(virtualenvs_paths)" && abort "no installed virtualenv"
+    display_virtualenvs
+else
+    while test $# -ne 0; do
+        case $1 in
+            -h|--help|help) display_help ;;
+            new|-) shift; install $@; exit ;;
+            rm|-) shift; remove_virtualenvs $@; exit ;;
+            *) activate $@; exit ;;
+        esac
+        shift
+    done
+fi
