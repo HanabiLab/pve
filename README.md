@@ -8,13 +8,14 @@ Prototype made in Facebook Seattle Hackathon, idea inspired by [n](https://githu
 
 ####Installation
 Makefile untested, not recommend to use that.
+
 One easy way is use "ln" to create symlink in /usr/local/bin, and chmod 755 to pve file.
 
 ####TODO:
-[ ] Find better solution for activate and source.
-[ ] Make shareable virtualenv instance, and can be download, install within one line
-[ ] Test Script
-[ ] Complete Makefile
+- [ ] Find better solution for activate and source.
+- [ ] Make shareable virtualenv instance, and can be download, install within one line
+- [ ] Test Script
+- [ ] Complete Makefile
 
 ####Activate Problem
 Using __source__ in bash script is not working well.
