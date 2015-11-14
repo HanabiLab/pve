@@ -7,6 +7,8 @@
 Prototype made in Facebook Seattle Hackathon, idea inspired by [n](https://github.com/tj/n)
 
 ####Installation
+Install python virtualenv by pip first.
+
 Makefile untested, not recommend to use that.
 
 One easy way is use "ln" to create symlink in /usr/local/bin, and chmod 755 to pve file.
