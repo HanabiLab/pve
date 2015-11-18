@@ -3,7 +3,7 @@
 #
 # Setup.
 #
-version="0.0.2"
+version="0.0.3"
 UP=$'\033[A'
 DOWN=$'\033[B'
 PVE_PREFIX=${PVE_PREFIX-/usr/local}

@@ -1,0 +1,32 @@
+{
+  "name": "pve",
+  "description": "python virtualenv commandline manager",
+  "version": "0.0.3",
+  "author": "Roy Xue <xljroy@gmail.com>",
+  "homepage": "https://github.com/royxue/pve",
+  "bugs": "https://github.com/royxue/pve/issues",
+  "contributors": [
+    {
+      "name": "Roy Xue",
+      "email": "xljroy@gmail.com",
+      "url": "royxue.me"
+    }
+  ],
+  "keywords": [
+    "python",
+    "virtualenv",
+    "commandline",
+    "manager",
+    "switcher"
+  ],
+  "bin": {
+    "pve": "./bin/pve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/royxue/pve.git"
+  },
+  "preferGlobal": true,
+  "license": "MIT",
+  "readme": "README.md"
+}
