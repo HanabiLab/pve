@@ -3,8 +3,7 @@
 #
 # Setup.
 #
-
-version="0.0.1"
+version="0.0.2"
 UP=$'\033[A'
 DOWN=$'\033[B'
 PVE_PREFIX=${PVE_PREFIX-/usr/local}
@@ -13,7 +12,6 @@ BASE_VIRTUALENVS_DIR=$PVE_PREFIX/pve/virtualenvs
 #
 # Log <type> <msg>
 #
-
 log() {
     printf "  \033[36m%10s\033[0m : \033[90m%s\033[0m\n" "$1" "$2"
 }
@@ -21,7 +19,6 @@ log() {
 #
 # Exit with the given <msg ...>
 #
-
 abort() {
     printf "\n  \033[31mError: $@\033[0m\n\n" && exit 1
 }
@@ -29,7 +26,6 @@ abort() {
 #
 # Print a (differentiable from log) success message.
 #
-
 success() {
     printf "\n  \033[32mSuccess: $@\033[0m\n\n"
 }
@@ -38,7 +34,6 @@ success() {
 #
 # Functions used when showing virtualenvs installed
 #
-
 enter_fullscreen() {
     tput smcup
     stty -echo
@@ -62,32 +57,25 @@ handle_sigtstp() {
 #
 # Output usage information.
 #
-
 display_help() {
   cat <<-EOF
-
   Usage: pve [COMMAND] [args]
 
   Commands:
-
     pve                            Output Virtualenvs Installed
     pve new <anme>                 Create New Virtualenvs <name>
     pve <name>                     Activate to Vitualenv <name>
     pve rm <anme>                  Remove the Given Vitualenv <name>
 
   Options:
-
     -h, --help      Display help information
-
 EOF
     exit 0
 }
 
-
 #
 # Hide cursor.
 #
-
 hide_cursor() {
     printf "\e[?25l"
 }
@@ -95,7 +83,6 @@ hide_cursor() {
 #
 # Show cursor.
 #
-
 show_cursor() {
     printf "\e[?25h"
 }
@@ -103,7 +90,6 @@ show_cursor() {
 #
 # Output virtualenv after selected.
 #
-
 next_virtualenv_installed() {
     list_virtualenvs_installed | grep $selected -A 1 | tail -n 1
 }
@@ -111,7 +97,6 @@ next_virtualenv_installed() {
 #
 # Output virtualenv before selected.
 #
-
 prev_virtualenv_installed() {
     list_virtualenvs_installed | grep $selected -B 1 | head -n 1
 }
@@ -119,7 +104,6 @@ prev_virtualenv_installed() {
 #
 # Display sorted virtualenvs directories paths.
 #
-
 virtualenvs_paths() {
     find $BASE_VIRTUALENVS_DIR -maxdepth 1 -mindepth 1 -type d \
     | sed 's|'$BASE_VIRTUALENVS_DIR'/||g'
@@ -128,7 +112,6 @@ virtualenvs_paths() {
 #
 # Display installed virtualenvs with <selected>
 #
-
 display_virtualenvs_with_selected() {
     selected=$1
     echo
@@ -146,7 +129,6 @@ display_virtualenvs_with_selected() {
 #
 # List installed virtualenvs.
 #
-
 list_virtualenvs_installed() {
     for virtualenv in $(virtualenvs_paths); do
         echo ${virtualenv}
@@ -156,7 +138,6 @@ list_virtualenvs_installed() {
 #
 # Display current python --virtualenv and others installed.
 #
-
 display_virtualenvs() {
     for virtualenv in $(virtualenvs_paths); do
         last=${virtualenv}
@@ -189,7 +170,6 @@ display_virtualenvs() {
 #
 # Move up a line and erase.
 #
-
 erase_line() {
     printf "\033[1A\033[2K"
 }
@@ -198,7 +178,6 @@ erase_line() {
 #
 # Activate <virtualenv>
 #
-
 activate() {
     local virtualenv=$1
     source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
@@ -210,7 +189,6 @@ activate() {
 #
 # Install <virtualenv>
 #
-
 install() {
     local virtualenv=$1
     virtualenv $BASE_VIRTUALENVS_DIR/$virtualenv
@@ -219,7 +197,6 @@ install() {
 #
 # Remove <virtualenv>
 #
-
 remove_virtualenvs() {
     local virtualenv=$1
     rm -rf $BASE_VIRTUALENVS_DIR/$virtualenv
@@ -228,7 +205,6 @@ remove_virtualenvs() {
 #
 # Handle arguments.
 #
-
 if test $# -eq 0; then
     test -z "$(virtualenvs_paths)" && abort "no installed virtualenv"
     display_virtualenvs
