@@ -2,6 +2,8 @@
 ---
 ####Python Virtualenv Manager
 
+[![Join the chat at https://gitter.im/royxue/pve](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/royxue/pve?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![](pve.gif)
 
 Prototype made in Facebook Seattle Hackathon, idea inspired by [n](https://github.com/tj/n)
