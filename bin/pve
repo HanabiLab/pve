@@ -181,9 +181,13 @@ erase_line() {
 #
 activate() {
     local virtualenv=$1
-    source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
-    leave_fullscreen
-    bash
+    if [[ " ${virtualenvs_paths[@]} " =~ " ${virtualenv} " ]]; then
+        source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
+        leave_fullscreen
+        bash
+    else
+        echo "Vitualenv not existed"
+    fi
 }
 
 
