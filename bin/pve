@@ -66,6 +66,7 @@ display_help() {
     pve new <anme>                 Create New Virtualenvs <name>
     pve <name>                     Activate to Vitualenv <name>
     pve rm <anme>                  Remove the Given Vitualenv <name>
+    pve -l, list                   List all installed Virtualenvs
 
   Options:
     -h, --help      Display help information
@@ -214,6 +215,7 @@ else
             -h|--help|help) display_help ;;
             new|-) shift; install $@; exit ;;
             rm|-) shift; remove_virtualenvs $@; exit ;;
+            list|-l) shift; list_virtualenvs_installed; exit ;;
             *) activate $@; exit ;;
         esac
         shift
