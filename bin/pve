@@ -105,7 +105,7 @@ prev_virtualenv_installed() {
 #
 # Display sorted virtualenvs directories paths.
 #
-virtualenvs_paths() {
+virtualenvs_names() {
     find $BASE_VIRTUALENVS_DIR -maxdepth 1 -mindepth 1 -type d \
     | sed 's|'$BASE_VIRTUALENVS_DIR'/||g'
 }
@@ -116,7 +116,7 @@ virtualenvs_paths() {
 display_virtualenvs_with_selected() {
     selected=$1
     echo
-    for virtualenv in $(virtualenvs_paths); do
+    for virtualenv in $(virtualenvs_names); do
         virtualenv=${virtualenv}
         if test "$virtualenv" = "$selected"; then
             printf "  \033[36mο\033[0m $virtualenv\033[0m\n"
@@ -131,7 +131,7 @@ display_virtualenvs_with_selected() {
 # List installed virtualenvs.
 #
 list_virtualenvs_installed() {
-    for virtualenv in $(virtualenvs_paths); do
+    for virtualenv in $(virtualenvs_names); do
         echo ${virtualenv}
     done
 }
@@ -140,7 +140,7 @@ list_virtualenvs_installed() {
 # Display current python --virtualenv and others installed.
 #
 display_virtualenvs() {
-    for virtualenv in $(virtualenvs_paths); do
+    for virtualenv in $(virtualenvs_names); do
         last=${virtualenv}
     done
     enter_fullscreen
@@ -181,7 +181,7 @@ erase_line() {
 #
 activate() {
     local virtualenv=$1
-    if [[ " ${virtualenvs_paths[@]} " =~ " ${virtualenv} " ]]; then
+    if [[ " ${virtualenvs_names[@]} " =~ " ${virtualenv} " ]]; then
         source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
         leave_fullscreen
         bash
@@ -211,7 +211,7 @@ remove_virtualenvs() {
 # Handle arguments.
 #
 if test $# -eq 0; then
-    test -z "$(virtualenvs_paths)" && abort "no installed virtualenv"
+    test -z "$(virtualenvs_names)" && abort "no installed virtualenv"
     display_virtualenvs
 else
     while test $# -ne 0; do
