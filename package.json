@@ -1,7 +1,7 @@
 {
   "name": "pve",
   "description": "python virtualenv commandline manager",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Roy Xue <xljroy@gmail.com>",
   "homepage": "https://github.com/royxue/pve",
   "bugs": "https://github.com/royxue/pve/issues",
@@ -27,6 +27,5 @@
     "url": "git://github.com/royxue/pve.git"
   },
   "preferGlobal": true,
-  "license": "MIT",
-  "readme": "README.md"
+  "license": "MIT"
 }
