@@ -1,7 +1,7 @@
 {
   "name": "pve",
   "description": "python virtualenv commandline manager",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Roy Xue <xljroy@gmail.com>",
   "homepage": "https://github.com/royxue/pve",
   "bugs": "https://github.com/royxue/pve/issues",

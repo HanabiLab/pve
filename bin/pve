@@ -181,7 +181,8 @@ erase_line() {
 #
 activate() {
     local virtualenv=$1
-    if [[ " ${virtualenvs_names[@]} " =~ " ${virtualenv} " ]]; then
+    echo
+    if [[ $(virtualenvs_names) =~ $virtualenv ]]; then
         source $BASE_VIRTUALENVS_DIR/$virtualenv/bin/activate
         leave_fullscreen
         bash
